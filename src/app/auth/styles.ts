@@ -49,9 +49,11 @@ export const BoxInput = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  width: 100%; // garante que o box ocupe todo o card
 `;
 
 export const Input = styled.input`
+  width: 100%; // garante que o input não ultrapasse o card
   padding: 0.9rem 1.2rem;
   border-radius: 0.8rem;
   border: none;

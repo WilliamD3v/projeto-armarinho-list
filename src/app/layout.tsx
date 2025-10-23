@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 import StyledComponentsRegistry from "@/lib/registry";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { queryClient } from "../services/queryClient";
+import { AuthProvider } from "@/context/authContext";
 
 export const metadata: Metadata = {
   title: "Armarinho Sistema",
@@ -16,7 +19,11 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body>
-        <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
+        <QueryClientProvider client={queryClient}>
+          <AuthProvider>
+            <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
+          </AuthProvider>
+        </QueryClientProvider>
       </body>
     </html>
   );
