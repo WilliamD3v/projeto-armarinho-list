@@ -33,14 +33,15 @@ import {
   PageContainer,
 } from "@/components/FormProduct/styles";
 import { useQuery } from "@tanstack/react-query";
-import { getProduct } from "@/hooks/useClient";
+import { getGastos, getProduct } from "@/hooks/useClient";
 import { ProductProp } from "@/types/product";
 import axios from "@/lib/axios";
 import { FormGastos } from "@/components/FromGastos";
+import { GastosProps } from "@/types/gastos";
+import { TabelaGastos } from "@/components/TabelaGastos";
 
 export default function DashboardPage() {
   const router = useRouter();
-  const pathname = usePathname();
 
   const { data: dataProduct, refetch: refetchProduct } = useQuery<
     ProductProp[]
@@ -48,13 +49,20 @@ export default function DashboardPage() {
     queryKey: ["Product"],
     queryFn: getProduct,
   });
+
+  const { data: dataGastos, refetch: refetchGastos } = useQuery<GastosProps[]>({
+    queryKey: ["Gastos"],
+    queryFn: getGastos,
+  });
+
   const [loadingId, setLoadingId] = useState<string | null>(null);
   const [selectedProduct, setSelectedProduct] = useState<ProductProp | null>(
     null
   );
   const [productToEdit, setProductToEdit] = useState<ProductProp | null>(null);
   const [isVisible, setIsVisibles] = useState(false);
-  const [isVisibleFormGastos, setIsVisiblesFormGastos] = useState(false);
+  const [isVisibleTabelaGastos, setIsVisibleTabelaGastos] = useState(false);
+  const [gastoToEdit, setGastoToEdit] = useState<GastosProps | null>(null);
 
   const handleDeleteProduct = async (productId: string) => {
     setLoadingId(productId);
@@ -91,17 +99,6 @@ export default function DashboardPage() {
     return acc;
   }, {} as Record<string, ProductProp[]>);
 
-/*   useEffect(() => {
-    if (isVisible) {
-      setIsVisiblesFormGastos(false);
-      return;
-    }
-
-    if (isVisibleFormGastos) {
-      setIsVisiblesFormGastos(false);
-    }
-  }, [isVisible, isVisibleFormGastos]); */
-
   return (
     <>
       <SidebarContainer>
@@ -115,12 +112,8 @@ export default function DashboardPage() {
           >
             Adicionar Produto
           </Button>
-          <Button
-            onClick={() => {
-              setIsVisiblesFormGastos(true);
-            }}
-          >
-            Adicionar Gastos
+          <Button onClick={() => setIsVisibleTabelaGastos(true)}>
+            Tabela de Gastos
           </Button>
         </SidebarCenter>
         <SidebarBottom>
@@ -140,12 +133,6 @@ export default function DashboardPage() {
             }}
             initialData={productToEdit}
           />
-        </PageContainer>
-      )}
-
-      {isVisibleFormGastos && (
-        <PageContainer>
-          <FormGastos />
         </PageContainer>
       )}
 
@@ -243,6 +230,18 @@ export default function DashboardPage() {
             </p>
           </DrawerContent>
         </DrawerOverlay>
+      )}
+
+      {isVisibleTabelaGastos && (
+        <TabelaGastos
+          dataGastos={dataGastos}
+          closeTable={() => setIsVisibleTabelaGastos(false)}
+          refetchGastos={refetchGastos}
+          onEdit={(gasto) => {
+            setGastoToEdit(gasto);
+            setIsVisibleTabelaGastos(false);
+          }}
+        />
       )}
     </>
   );

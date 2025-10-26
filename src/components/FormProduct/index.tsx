@@ -107,7 +107,6 @@ export const FormProduct = ({
 
   useEffect(() => {
     if (initialData) {
-      // 🔹 modo atualização
       setForm({
         name: initialData.name,
         cod: initialData.cod,
@@ -117,7 +116,6 @@ export const FormProduct = ({
         description: initialData.description,
       });
     } else {
-      // 🔹 modo criação
       setForm({
         name: "",
         cod: "",
@@ -134,7 +132,7 @@ export const FormProduct = ({
       <FormContainer>
         <CloseButtonForm
           onClick={(e) => {
-            e.stopPropagation();
+            e.preventDefault();
             closeForm();
             setProductToEdit(null);
           }}

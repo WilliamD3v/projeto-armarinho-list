@@ -8,3 +8,12 @@ export const getProduct = async () => {
     console.error("Error no servidor:", error);
   }
 };
+
+export const getGastos = async () => {
+  try {
+    const res = await axios.get(`gastos/get-gastos`);
+    return res.data;
+  } catch (error) {
+    console.error("Error no servidor:", error);
+  }
+};
