@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   SidebarContainer,
   SidebarTop,
@@ -11,9 +11,6 @@ import {
   ActionButtons,
   DeleteButton,
   MainContainer,
-  ProductInfo,
-  ProductItem,
-  ProductsList,
   UpdateButton,
   CloseButton,
   DrawerContent,
@@ -26,17 +23,13 @@ import {
   EnterpriseProducts,
 } from "./styles";
 import { destroyCookie } from "nookies";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { FormProduct } from "@/components/FormProduct";
-import {
-  CloseButtonForm,
-  PageContainer,
-} from "@/components/FormProduct/styles";
+import { PageContainer } from "@/components/FormProduct/styles";
 import { useQuery } from "@tanstack/react-query";
 import { getGastos, getProduct } from "@/hooks/useClient";
-import { ProductProp } from "@/types/product";
+import { ProductProps } from "@/types/product";
 import axios from "@/lib/axios";
-import { FormGastos } from "@/components/FromGastos";
 import { GastosProps } from "@/types/gastos";
 import { TabelaGastos } from "@/components/TabelaGastos";
 
@@ -44,7 +37,7 @@ export default function DashboardPage() {
   const router = useRouter();
 
   const { data: dataProduct, refetch: refetchProduct } = useQuery<
-    ProductProp[]
+    ProductProps[]
   >({
     queryKey: ["Product"],
     queryFn: getProduct,
@@ -56,10 +49,10 @@ export default function DashboardPage() {
   });
 
   const [loadingId, setLoadingId] = useState<string | null>(null);
-  const [selectedProduct, setSelectedProduct] = useState<ProductProp | null>(
+  const [selectedProduct, setSelectedProduct] = useState<ProductProps | null>(
     null
   );
-  const [productToEdit, setProductToEdit] = useState<ProductProp | null>(null);
+  const [productToEdit, setProductToEdit] = useState<ProductProps | null>(null);
   const [isVisible, setIsVisibles] = useState(false);
   const [isVisibleTabelaGastos, setIsVisibleTabelaGastos] = useState(false);
   const [gastoToEdit, setGastoToEdit] = useState<GastosProps | null>(null);
@@ -97,7 +90,7 @@ export default function DashboardPage() {
     }
     acc[product.enterprise].push(product);
     return acc;
-  }, {} as Record<string, ProductProp[]>);
+  }, {} as Record<string, ProductProps[]>);
 
   return (
     <>

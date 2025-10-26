@@ -1,7 +1,7 @@
 "use client";
 import axios from "@/lib/axios";
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { ProductProps } from "@/types/product";
 
 import {
   FormContainer,
@@ -16,8 +16,8 @@ import {
 interface FormProductProps {
   refetchProduct: () => void;
   closeForm: () => void;
-  setProductToEdit: (data: any) => void;
-  initialData?: any;
+  setProductToEdit: (data: ProductProps | null) => void;
+  initialData?: ProductProps | null;
 }
 
 export const FormProduct = ({

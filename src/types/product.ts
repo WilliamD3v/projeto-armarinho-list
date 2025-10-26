@@ -1,9 +1,9 @@
-export interface ProductProp {
+export interface ProductProps {
   _id: string;
-  cod: string;
-  description: string;
-  enterprise: string;
   name: string;
-  value: string;
+  cod: string;
   qnt: string;
+  value: string;
+  enterprise: string;
+  description: string;
 }
