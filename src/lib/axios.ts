@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const URL = "http://projeto-armarinho-list-back.vercel.app";
+const URL = "https://projeto-armarinho-list-back.vercel.app";
 
 /* projeto-armarinho-list-back.vercel.app */
 
