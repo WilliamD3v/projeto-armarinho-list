@@ -87,7 +87,7 @@ export const Thead = styled.thead`
 `;
 
 export const Tbody = styled.tbody`
-  background: #071B2F;
+  background: #071b2f;
 `;
 
 export const Tr = styled.tr`
@@ -112,6 +112,16 @@ export const Td = styled.td`
   color: #ddd;
 `;
 
+export const BoxElementsCode = styled.div`
+  display: flex;
+  align-items: center;
+
+  span {
+    position: relative;
+    left: 12px;
+  }
+`;
+
 /* SCROLL HORIZONTAL SOMENTE EM ALGUMAS CÉLULAS */
 export const ScrollCell = styled.div`
   max-width: 180px;
@@ -125,11 +135,6 @@ export const ScrollCell = styled.div`
   &::-webkit-scrollbar-thumb {
     background: #4b5563;
     border-radius: 10px;
-  }
-
-  span {
-    position: absolute;
-    margin: 10px;
   }
 `;
 

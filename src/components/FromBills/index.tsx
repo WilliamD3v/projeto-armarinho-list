@@ -19,6 +19,7 @@ import {
   ScrollCell,
   TableWrapper,
   BoxButtonAdd,
+  BoxElementsCode,
 } from "./styles";
 
 import { BillsProps } from "@/types/bills";
@@ -295,18 +296,19 @@ export const FormBills = ({
                   </Td>
 
                   <Td>
-                    <ScrollCell>
-                      <InputTable
-                        name="cod"
-                        placeholder="Código"
-                        value={formBills.cod}
-                        onChange={handleChange}
-                      />
+                    <BoxElementsCode>
+                      <ScrollCell>
+                        <InputTable
+                          name="cod"
+                          placeholder="Código"
+                          value={formBills.cod}
+                          onChange={handleChange}
+                        />
+                      </ScrollCell>
 
                       <span
                         className={`${
-                          formBills.cod.length >= 1 &&
-                          formBills.cod.length < 47
+                          formBills.cod.length >= 1 && formBills.cod.length < 47
                             ? "text-red-700"
                             : formBills.cod.length === 47
                             ? "text-emerald-600"
@@ -315,7 +317,7 @@ export const FormBills = ({
                       >
                         {formBills.cod.length} / 47
                       </span>
-                    </ScrollCell>
+                    </BoxElementsCode>
                   </Td>
 
                   <Td></Td>
