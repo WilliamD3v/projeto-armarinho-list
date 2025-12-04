@@ -17,3 +17,12 @@ export const getGastos = async () => {
     console.error("Error no servidor:", error);
   }
 };
+
+export const getBills = async () => {
+  try {
+    const res = await axios.get(`bills/get-bills`);
+    return res.data;
+  } catch (error) {
+    console.error("Error no servidor:", error);
+  }
+};

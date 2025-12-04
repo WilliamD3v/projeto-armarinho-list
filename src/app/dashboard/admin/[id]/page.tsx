@@ -27,11 +27,13 @@ import { useRouter } from "next/navigation";
 import { FormProduct } from "@/components/FormProduct";
 import { PageContainer } from "@/components/FormProduct/styles";
 import { useQuery } from "@tanstack/react-query";
-import { getGastos, getProduct } from "@/hooks/useClient";
+import { getBills, getGastos, getProduct } from "@/hooks/useClient";
 import { ProductProps } from "@/types/product";
 import axios from "@/lib/axios";
 import { GastosProps } from "@/types/gastos";
 import { TabelaGastos } from "@/components/TabelaGastos";
+import { FormBills } from "@/components/FromBills";
+import { BillsProps } from "@/types/bills";
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -48,6 +50,13 @@ export default function DashboardPage() {
     queryFn: getGastos,
   });
 
+  const { data: dataBills, refetch: refetchBills } = useQuery<BillsProps[]>({
+    queryKey: ["Bills"],
+    queryFn: getBills,
+  });
+
+  console.log(dataBills);
+
   const [loadingId, setLoadingId] = useState<string | null>(null);
   const [selectedProduct, setSelectedProduct] = useState<ProductProps | null>(
     null
@@ -55,6 +64,7 @@ export default function DashboardPage() {
   const [productToEdit, setProductToEdit] = useState<ProductProps | null>(null);
   const [isVisible, setIsVisibles] = useState(false);
   const [isVisibleTabelaGastos, setIsVisibleTabelaGastos] = useState(false);
+  const [isVisibleTabelaBills, setIsVisibleTabelaBills] = useState(false);
   const [gastoToEdit, setGastoToEdit] = useState<GastosProps | null>(null);
 
   const handleDeleteProduct = async (productId: string) => {
@@ -107,6 +117,9 @@ export default function DashboardPage() {
           </Button>
           <Button onClick={() => setIsVisibleTabelaGastos(true)}>
             Tabela de Gastos
+          </Button>
+          <Button onClick={() => setIsVisibleTabelaBills(true)}>
+            Tabela de Boletos
           </Button>
         </SidebarCenter>
         <SidebarBottom>
@@ -236,6 +249,8 @@ export default function DashboardPage() {
           }}
         />
       )}
+
+      {isVisibleTabelaBills && <FormBills billsData={dataBills ?? []} refetchBills={refetchBills} setIsVisibleTabelaBills={setIsVisibleTabelaBills}/>}
     </>
   );
 }
