@@ -259,12 +259,16 @@ export const CloseButton = styled.button`
 /* --- Container principal com colunas por empresa --- */
 export const EnterpriseGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 0;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1px;
   border: 1px solid #e2e8f0;
   border-radius: 12px;
   overflow: hidden;
   background: white;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
 `;
 
 /* --- Coluna de uma empresa --- */
@@ -272,12 +276,12 @@ export const EnterpriseColumn = styled.div`
   display: flex;
   flex-direction: column;
   border-right: 1px solid #e2e8f0;
+  background: white;
 
   &:last-child {
     border-right: none;
   }
 `;
-
 /* --- Cabeçalho da coluna (nome da empresa) --- */
 export const EnterpriseHeader = styled.div`
   background: #1e293b;
@@ -293,6 +297,43 @@ export const EnterpriseHeader = styled.div`
 export const EnterpriseProducts = styled.div`
   display: flex;
   flex-direction: column;
+
+  max-height: 320px;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  scrollbar-width: thin;
+  scrollbar-color: #4b5563 transparent;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #4b5563;
+    border-radius: 8px;
+  }
+
+  @media (max-width: 1024px) {
+    max-height: 260px;
+  }
+
+  @media (max-width: 640px) {
+    max-height: 220px;
+  }
+`;
+
+export const EnterpriseTotal = styled.div`
+  padding: 14px 18px;
+  background: #f1f5f9;
+  border-top: 1px solid #e2e8f0;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  font-weight: 700;
+  color: #111827;
 `;
 
 /* --- Item de produto --- */
@@ -302,7 +343,7 @@ export const EnterpriseProductItem = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  transition: background 0.2s;
+  gap: 12px;
 
   &:hover {
     background: #f9fafb;
@@ -310,6 +351,11 @@ export const EnterpriseProductItem = styled.div`
 
   &:last-child {
     border-bottom: none;
+  }
+
+  @media (max-width: 640px) {
+    flex-direction: column;
+    align-items: flex-start;
   }
 `;
 

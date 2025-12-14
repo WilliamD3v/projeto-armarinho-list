@@ -4,4 +4,5 @@ export interface BillsProps {
   price: string;
   date: string;
   cod: string;
+  paid: boolean;
 }

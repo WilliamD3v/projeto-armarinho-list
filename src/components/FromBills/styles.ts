@@ -86,13 +86,12 @@ export const Thead = styled.thead`
   background: #1e293b;
 `;
 
-export const Tbody = styled.tbody`
-  background: #071b2f;
-`;
+export const Tbody = styled.tbody``;
 
-export const Tr = styled.tr`
+export const Tr = styled.tr<{ $paid?: boolean }>`
+  background: ${({ $paid }) => ($paid ? "#008000" : "#071b2f")};
+
   &.highlight {
-    background-color: #4b5563; /* cor do dia */
     font-weight: 600;
   }
 `;
@@ -100,7 +99,7 @@ export const Tr = styled.tr`
 export const Th = styled.th`
   padding: 10px;
   text-align: left;
-  background: #1e293b; /* cor do fundo da sua tabela */
+  background: #1e293b;
   position: sticky;
   top: 0;
   z-index: 10;

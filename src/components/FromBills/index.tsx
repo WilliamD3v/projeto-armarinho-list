@@ -1,6 +1,8 @@
 import axios from "@/lib/axios";
 import { useState } from "react";
 import { FiCopy, FiEdit, FiTrash2 } from "react-icons/fi";
+import { BiCheck } from "react-icons/bi";
+import { BiCheckDouble } from "react-icons/bi";
 
 import {
   Overlay,
@@ -182,6 +184,21 @@ export const FormBills = ({
     }
   };
 
+  const handleClick = async (productId: string) => {
+    try {
+      const res = await axios.post(`bills/update-status/${productId}`, {
+        paid: true,
+      });
+
+      if (res.status === 200) {
+        console.log("Boleto Pago");
+      }
+
+      await refetchBills();
+    } catch (error) {
+      console.error(error, "Error ao Pagar");
+    }
+  };
   // RESETAR FORM
   const resetForm = () => {
     setFormBills({
@@ -193,7 +210,6 @@ export const FormBills = ({
     setEditingId(null);
   };
 
-  // RENDER
   return (
     <>
       <Overlay />
@@ -236,7 +252,11 @@ export const FormBills = ({
                   const highlight = isSameDay(billDate, todayLocal);
 
                   return (
-                    <Tr key={bill._id} className={highlight ? "highlight" : ""}>
+                    <Tr
+                      $paid={bill.paid}
+                      key={bill._id}
+                      className={highlight ? "highlight" : ""}
+                    >
                       <Td>
                         <ScrollCell>{bill.name}</ScrollCell>
                       </Td>
@@ -253,12 +273,19 @@ export const FormBills = ({
                       </Td>
 
                       <Td>
-                        <Action>
-                          <FiEdit onClick={() => handleEdit(bill)} />
-                          <FiTrash2
-                            onClick={() => handleDeleteBills(bill._id)}
-                          />
-                        </Action>
+                        {bill.paid === true ? (
+                          <div className="text-3xl text-blue-900 flex justify-center relative right-10">
+                            <BiCheckDouble />
+                          </div>
+                        ) : (
+                          <Action>
+                            <BiCheck onClick={() => handleClick(bill._id)} />
+                            <FiEdit onClick={() => handleEdit(bill)} />
+                            <FiTrash2
+                              onClick={() => handleDeleteBills(bill._id)}
+                            />
+                          </Action>
+                        )}
                       </Td>
                     </Tr>
                   );

@@ -21,6 +21,7 @@ import {
   EnterpriseProductInfo,
   EnterpriseProductItem,
   EnterpriseProducts,
+  EnterpriseTotal,
 } from "./styles";
 import { destroyCookie } from "nookies";
 import { useRouter } from "next/navigation";
@@ -161,7 +162,10 @@ export default function DashboardPage() {
 
                 return (
                   <EnterpriseColumn key={enterprise}>
+                    {/* 🔒 Header fixo */}
                     <EnterpriseHeader>{enterprise}</EnterpriseHeader>
+
+                    {/* 🔄 Área com rolagem */}
                     <EnterpriseProducts>
                       {products.map((product) => (
                         <EnterpriseProductItem
@@ -172,6 +176,7 @@ export default function DashboardPage() {
                             <span>{product.name}</span>
                             <small>R$ {product.value}</small>
                           </EnterpriseProductInfo>
+
                           <ActionButtons>
                             <UpdateButton
                               onClick={(e) => {
@@ -182,6 +187,7 @@ export default function DashboardPage() {
                             >
                               Atualizar
                             </UpdateButton>
+
                             <DeleteButton
                               onClick={(e) => {
                                 e.stopPropagation();
@@ -196,17 +202,13 @@ export default function DashboardPage() {
                           </ActionButtons>
                         </EnterpriseProductItem>
                       ))}
-
-                      {/* 🔹 Linha do TOTAL */}
-                      <EnterpriseProductItem style={{ background: "#f1f5f9" }}>
-                        <EnterpriseProductInfo>
-                          <span>Total</span>
-                        </EnterpriseProductInfo>
-                        <strong style={{ color: "#111827" }}>
-                          R$ {total.toFixed(2).replace(".", ",")}
-                        </strong>
-                      </EnterpriseProductItem>
                     </EnterpriseProducts>
+
+                    {/* 🔒 Total fixo */}
+                    <EnterpriseTotal>
+                      <span>Total</span>
+                      <strong>R$ {total.toFixed(2).replace(".", ",")}</strong>
+                    </EnterpriseTotal>
                   </EnterpriseColumn>
                 );
               }
@@ -250,7 +252,13 @@ export default function DashboardPage() {
         />
       )}
 
-      {isVisibleTabelaBills && <FormBills billsData={dataBills ?? []} refetchBills={refetchBills} setIsVisibleTabelaBills={setIsVisibleTabelaBills}/>}
+      {isVisibleTabelaBills && (
+        <FormBills
+          billsData={dataBills ?? []}
+          refetchBills={refetchBills}
+          setIsVisibleTabelaBills={setIsVisibleTabelaBills}
+        />
+      )}
     </>
   );
 }
