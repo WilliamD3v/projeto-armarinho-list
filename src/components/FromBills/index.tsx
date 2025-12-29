@@ -1,5 +1,5 @@
 import axios from "@/lib/axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FiCopy, FiEdit, FiTrash2 } from "react-icons/fi";
 import { BiCheck } from "react-icons/bi";
 import { BiCheckDouble } from "react-icons/bi";
@@ -22,6 +22,7 @@ import {
   TableWrapper,
   BoxButtonAdd,
   BoxElementsCode,
+  ScrollCode,
 } from "./styles";
 
 import { BillsProps } from "@/types/bills";
@@ -69,9 +70,6 @@ const isSameDay = (d1: Date | null, d2: Date | null) => {
   );
 };
 
-// ---------------------------------------------
-// TYPES
-// ---------------------------------------------
 interface FormBillsProps {
   name: string;
   price: string;
@@ -85,9 +83,6 @@ interface DataFormBillsProps {
   setIsVisibleTabelaBills: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-// ---------------------------------------------
-// COMPONENTE
-// ---------------------------------------------
 export const FormBills = ({
   billsData,
   refetchBills,
@@ -101,6 +96,7 @@ export const FormBills = ({
   });
 
   const [showForm, setShowForm] = useState(false);
+  const [totalUnpaid, setTotalUnpaid] = useState(0);
   const [editingId, setEditingId] = useState<string | null>(null);
 
   // FORMATAR PREÇO
@@ -108,6 +104,13 @@ export const FormBills = ({
     const number = Number(price.replace(/\D/g, "")) / 100;
 
     return number.toLocaleString("pt-BR", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
+  };
+
+  const formatTotalUnPaid = (value: number): string => {
+    return value.toLocaleString("pt-BR", {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     });
@@ -210,6 +213,39 @@ export const FormBills = ({
     setEditingId(null);
   };
 
+  useEffect(() => {
+    if (!billsData || billsData.length === 0) {
+      setTotalUnpaid(0);
+      return;
+    }
+
+    const parseValue = (value: string) => {
+      if (!value) return 0;
+
+      if (typeof value === "number") return value;
+
+      return Number(
+        value
+          .toString()
+          .replace("R$", "")
+          .replace(/\./g, "")
+          .replace(",", ".")
+          .trim()
+      );
+    };
+
+    const total = billsData
+      .filter((bill) => bill.paid !== true)
+      .reduce((sum, bill) => {
+        const parsed = parseValue(bill.price);
+        return sum + (isNaN(parsed) ? 0 : parsed);
+      }, 0);
+
+    setTotalUnpaid(total);
+  }, [billsData]);
+
+  console.log(totalUnpaid);
+
   return (
     <>
       <Overlay />
@@ -228,7 +264,7 @@ export const FormBills = ({
                 <Th>Nome</Th>
                 <Th>Valor</Th>
                 <Th>Data</Th>
-                <Th>Código</Th>
+                <Th className="style-code">Código</Th>
                 <Th>Ações</Th>
               </Tr>
             </Thead>
@@ -267,7 +303,7 @@ export const FormBills = ({
 
                       <Td>
                         <div className="flex">
-                          <ScrollCell>{bill.cod}</ScrollCell>
+                          <ScrollCode>{bill.cod}</ScrollCode>
                           <CopyCod text={bill.cod} />
                         </div>
                       </Td>
@@ -356,9 +392,16 @@ export const FormBills = ({
 
         <BoxButtonAdd>
           {!showForm ? (
-            <ButtonAdd onClick={() => setShowForm(true)}>
-              Adicionar Boleto
-            </ButtonAdd>
+            <>
+              <div className="totalPaid">
+                <samp>Total:</samp>
+                R$ {formatTotalUnPaid(totalUnpaid)}
+              </div>
+
+              <ButtonAdd onClick={() => setShowForm(true)}>
+                Adicionar Boleto
+              </ButtonAdd>
+            </>
           ) : (
             <>
               {editingId ? (

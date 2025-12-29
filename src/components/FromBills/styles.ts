@@ -30,7 +30,7 @@ export const ClosedForm = styled.button`
 `;
 
 export const TableWrapper = styled.div`
-  max-height: 300px; /* limite vertical que você quiser */
+  max-height: 300px;
   overflow-y: auto;
   overflow-x: hidden;
 
@@ -80,6 +80,10 @@ export const Table = styled.table`
     background: #4b5563;
     border-radius: 10px;
   }
+
+  @media (max-width: 768px) {
+    width: 50%;
+  }
 `;
 
 export const Thead = styled.thead`
@@ -103,12 +107,24 @@ export const Th = styled.th`
   position: sticky;
   top: 0;
   z-index: 10;
+
+  @media (max-width: 768px) {
+    padding: 2px;
+
+    &.style-code {
+      display: none;
+    }
+  }
 `;
 
 export const Td = styled.td`
   padding: 12px;
   font-size: 14px;
   color: #ddd;
+
+  @media (max-width: 768px) {
+    padding: 8px;
+  }
 `;
 
 export const BoxElementsCode = styled.div`
@@ -134,6 +150,25 @@ export const ScrollCell = styled.div`
   &::-webkit-scrollbar-thumb {
     background: #4b5563;
     border-radius: 10px;
+  }
+`;
+
+export const ScrollCode = styled.div`
+  max-width: 180px;
+  overflow-x: auto;
+  white-space: nowrap;
+
+  &::-webkit-scrollbar {
+    height: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #4b5563;
+    border-radius: 10px;
+  }
+
+  @media (max-width: 768px) {
+    display: none;
   }
 `;
 
@@ -182,7 +217,15 @@ export const InputTable = styled.input`
 export const BoxButtonAdd = styled.div`
   display: flex;
   justify-content: end;
+  align-items: center;
   gap: 20px;
+
+  .totalPaid {
+    display: flex;
+    color: aliceblue;
+    font-weight: 700;
+    gap: 0.4rem;
+  }
 `;
 
 export const ButtonAdd = styled.button`

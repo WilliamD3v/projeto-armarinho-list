@@ -32,4 +32,7 @@ export const CopyButton = styled.button<CopyButtonProps>`
       animation: ${copiedAnimation} 0.4s ease;
       color: #22c55e !important;
     `}
+
+  @media (max-width: 390px) {
+  }
 `;
