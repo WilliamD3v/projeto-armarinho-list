@@ -15,22 +15,51 @@ export const Overlay = styled.div`
 
 export const TableContainer = styled.div`
   position: fixed;
-  inset: 50% auto auto 50%;
-  transform: translate(-50%, -50%);
-  width: 95%;
+  inset: 0;
+  margin: auto;
+
+  width: 100%;
   max-width: 1200px;
   max-height: 90vh;
+
   background: #0f172a;
   border-radius: 20px;
-  padding: 20px;
-  box-shadow: 0 8px 30px rgba(2, 6, 23, 0.4);
-  z-index: 30;
+  padding: 16px;
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+
+  z-index: 100;
 
   @media (max-width: 768px) {
-    padding: 14px;
-    border-radius: 16px;
+    max-width: 100%;
+    max-height: 100vh;
+    border-radius: 0;
   }
 `;
+
+
+export const HorizontalScroll = styled.div`
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  -webkit-overflow-scrolling: touch;
+
+  scrollbar-width: thin;
+
+  &::-webkit-scrollbar {
+    height: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #475569;
+    border-radius: 10px;
+  }
+`;
+
 
 /* ================= HEADER ================= */
 
@@ -57,19 +86,19 @@ export const ClosedForm = styled.button`
 /* ================= TABLE WRAPPER ================= */
 
 export const TableWrapper = styled.div`
-  max-height: 55vh;
+  max-height: 60vh;
+  overflow-x: auto;
   overflow-y: auto;
-  overflow-x: hidden;
-  margin-top: 12px;
 
   scrollbar-width: thin;
 
   &::-webkit-scrollbar {
+    height: 6px;
     width: 6px;
   }
 
   &::-webkit-scrollbar-thumb {
-    background: #334155;
+    background: #4b5563;
     border-radius: 10px;
   }
 `;
@@ -78,15 +107,12 @@ export const TableWrapper = styled.div`
 
 export const Table = styled.table`
   width: 100%;
+  min-width: 1000px; /* 🔥 FORÇA SCROLL */
   border-collapse: separate;
   border-spacing: 0 12px;
-  color: #f8fafc;
+  color: #fff;
+  font-family: "Poppins", sans-serif;
   white-space: nowrap;
-
-  @media (max-width: 768px) {
-    display: block;
-    width: 100%;
-  }
 `;
 
 export const Thead = styled.thead`

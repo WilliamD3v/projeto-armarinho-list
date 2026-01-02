@@ -27,6 +27,7 @@ import {
   FormGrid,
   FormGroup,
   FormActions,
+  HorizontalScroll,
 } from "./styles";
 
 import { BillsProps } from "@/types/bills";
@@ -178,6 +179,7 @@ export const FormBills = ({
         </BocClosedFrom>
 
         <TableWrapper>
+          <HorizontalScroll>
           <Table>
             <Thead>
               <Tr>
@@ -238,6 +240,7 @@ export const FormBills = ({
                 })}
             </Tbody>
           </Table>
+          </HorizontalScroll>
         </TableWrapper>
 
         {/* FORMULÁRIO */}
