@@ -1,8 +1,12 @@
 "use client";
 import styled from "styled-components";
 
+interface Menu {
+  menu: boolean;
+}
+
 /* --- Sidebar --- */
-export const SidebarContainer = styled.div`
+export const SidebarContainer = styled.div<Menu>`
   width: 250px;
   height: 100vh;
   background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
@@ -15,6 +19,10 @@ export const SidebarContainer = styled.div`
   top: 0;
   left: 0;
   box-shadow: 4px 0 15px rgba(0, 0, 0, 0.2);
+
+  @media (max-width: 768px) {
+    display: ${({ menu }) => (menu ? "flex" : "none")};
+  }
 `;
 
 export const SidebarTop = styled.div`
@@ -87,6 +95,12 @@ export const MainContainer = styled.main`
     font-weight: 700;
     color: #1e293b;
     margin-bottom: 20px;
+
+    @media (max-width: 768px) {
+      font-size: 22px;
+      margin-bottom: 10px;
+      margin-top: 30px;
+    }
   }
 
   h2 {
@@ -95,6 +109,21 @@ export const MainContainer = styled.main`
     margin: 25px 0 15px;
     color: #334155;
   }
+
+  @media (max-width: 768px) {
+    margin-left: 0;
+  }
+`;
+
+export const BoxMenu = styled.div<Menu>`
+  display: flex;
+  justify-content: ${({ menu }) => (menu ? "end" : "baseline")};
+  z-index: 100;
+
+`;
+
+export const ButtonMenu = styled.button`
+  font-size: 30px;
 `;
 
 /* --- Lista de Produtos --- */

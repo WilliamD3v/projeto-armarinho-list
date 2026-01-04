@@ -1,5 +1,14 @@
 "use client";
+import axios from "@/lib/axios";
 import { useState } from "react";
+import { destroyCookie } from "nookies";
+import { useRouter } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
+import { getBills, getGastos, getProduct } from "@/hooks/useClient";
+
+import { AiOutlineMenuUnfold } from "react-icons/ai";
+import { AiOutlineMenuFold } from "react-icons/ai";
+
 import {
   SidebarContainer,
   SidebarTop,
@@ -22,19 +31,18 @@ import {
   EnterpriseProductItem,
   EnterpriseProducts,
   EnterpriseTotal,
+  BoxMenu,
+  ButtonMenu,
 } from "./styles";
-import { destroyCookie } from "nookies";
-import { useRouter } from "next/navigation";
-import { FormProduct } from "@/components/FormProduct";
-import { PageContainer } from "@/components/FormProduct/styles";
-import { useQuery } from "@tanstack/react-query";
-import { getBills, getGastos, getProduct } from "@/hooks/useClient";
+
 import { ProductProps } from "@/types/product";
-import axios from "@/lib/axios";
 import { GastosProps } from "@/types/gastos";
-import { TabelaGastos } from "@/components/TabelaGastos";
-import { FormBills } from "@/components/FromBills";
 import { BillsProps } from "@/types/bills";
+
+import { PageContainer } from "@/components/FormProduct/styles";
+import { TabelaGastos } from "@/components/TabelaGastos";
+import { FormProduct } from "@/components/FormProduct";
+import { FormBills } from "@/components/FromBills";
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -67,6 +75,11 @@ export default function DashboardPage() {
   const [isVisibleTabelaGastos, setIsVisibleTabelaGastos] = useState(false);
   const [isVisibleTabelaBills, setIsVisibleTabelaBills] = useState(false);
   const [gastoToEdit, setGastoToEdit] = useState<GastosProps | null>(null);
+  const [menu, setMenu] = useState(false);
+
+  const handleMenu = () => {
+    setMenu(!menu);
+  };
 
   const handleDeleteProduct = async (productId: string) => {
     setLoadingId(productId);
@@ -105,7 +118,7 @@ export default function DashboardPage() {
 
   return (
     <>
-      <SidebarContainer>
+      <SidebarContainer menu={menu}>
         <SidebarTop>Armarinho Simões</SidebarTop>
         <SidebarCenter>
           <Button
@@ -144,6 +157,12 @@ export default function DashboardPage() {
       )}
 
       <MainContainer>
+        <BoxMenu menu={menu}>
+          <ButtonMenu onClick={handleMenu}>
+            {menu ? <AiOutlineMenuFold /> : <AiOutlineMenuUnfold />}
+          </ButtonMenu>
+        </BoxMenu>
+
         <h1>Produtos por Empresa</h1>
 
         <EnterpriseGrid>
